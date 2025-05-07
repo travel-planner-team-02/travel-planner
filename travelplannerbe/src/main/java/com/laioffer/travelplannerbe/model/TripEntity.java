@@ -16,20 +16,28 @@ public class TripEntity {
     private Long userId;
     private LocalDate tripStartDate;
     private LocalDate tripEndDate;
+    @Column(name = "city_name")
+    private String cityName;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_id"), insertable = false, updatable = false)
     private UserEntity user;
 
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "city_name", foreignKey = @ForeignKey(name = "fk_city_name"), insertable = false, updatable = false)
+    private CityEntity city;
+
     public TripEntity() {
     }
 
-    public TripEntity(Long id, Long userId,LocalDate tripStartDate, LocalDate tripEndDate) {
+    public TripEntity(Long id, Long userId,LocalDate tripStartDate, LocalDate tripEndDate, String cityName) {
         this.id = id;
         this.userId = userId;
         this.tripStartDate = tripStartDate;
         this.tripEndDate = tripEndDate;
+        this.cityName = cityName;
     }
 
 
