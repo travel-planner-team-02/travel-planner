@@ -3,6 +3,7 @@ package com.laioffer.travelplannerbe.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "sites")
@@ -33,5 +34,49 @@ public class SiteEntity {
         this.cityName = cityName;
         this.rating = rating;
         this.image_urls = image_urls;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public List<String> getImage_urls() {
+        return image_urls;
+    }
+
+    public CityEntity getCity() {
+        return city;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        SiteEntity that = (SiteEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(address, that.address) && Objects.equals(cityName, that.cityName) && Objects.equals(rating, that.rating) && Objects.equals(image_urls, that.image_urls) && Objects.equals(city, that.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, address, cityName, rating, image_urls, city);
     }
 }
