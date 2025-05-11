@@ -26,7 +26,7 @@ public class TripEntity {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "city_name", foreignKey = @ForeignKey(name = "fk_city_name"), insertable = false, updatable = false)
+    @JoinColumn(name = "city_id", foreignKey = @ForeignKey(name = "fk_city_name"), insertable = false, updatable = false)
     private CityEntity city;
 
     public TripEntity() {

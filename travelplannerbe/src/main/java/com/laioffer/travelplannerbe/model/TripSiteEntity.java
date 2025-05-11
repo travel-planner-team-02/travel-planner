@@ -13,11 +13,13 @@ public class TripSiteEntity {
     private TripSiteKey id;
 
     @ManyToOne
+    @MapsId("tripId")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "trip_id", foreignKey = @ForeignKey(name = "fk_trip_id"), insertable = false, updatable = false)
     private TripEntity trip;
 
     @ManyToOne
+    @MapsId("siteId")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "site_id", foreignKey = @ForeignKey(name = "fk_site_id"), insertable = false, updatable = false)
     private SiteEntity site;

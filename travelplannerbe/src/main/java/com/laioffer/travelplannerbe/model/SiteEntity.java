@@ -20,7 +20,7 @@ public class SiteEntity {
     private List<String> image_urls;
 
     @ManyToOne
-    @JoinColumn(name = "city_name", foreignKey = @ForeignKey(name = "fk_city_name"), insertable = false, updatable = false)
+    @JoinColumn(name = "city_id", foreignKey = @ForeignKey(name = "fk_city_name"), insertable = false, updatable = false)
     private CityEntity city;
 
     public SiteEntity() {
