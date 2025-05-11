@@ -16,8 +16,8 @@ public class TripEntity {
     private Long userId;
     private LocalDate tripStartDate;
     private LocalDate tripEndDate;
-    @Column(name = "city_name")
-    private String cityName;
+    @Column(name = "city_id")
+    private Long cityId;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -26,19 +26,76 @@ public class TripEntity {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "city_id", foreignKey = @ForeignKey(name = "fk_city_name"), insertable = false, updatable = false)
+    @JoinColumn(name = "city_id", foreignKey = @ForeignKey(name = "fk_city_id"), insertable = false, updatable = false)
     private CityEntity city;
 
     public TripEntity() {
     }
 
-    public TripEntity(Long id, Long userId,LocalDate tripStartDate, LocalDate tripEndDate, String cityName) {
+    public TripEntity(Long id, Long userId, LocalDate tripStartDate, LocalDate tripEndDate, Long cityId) {
         this.id = id;
         this.userId = userId;
         this.tripStartDate = tripStartDate;
         this.tripEndDate = tripEndDate;
-        this.cityName = cityName;
+        this.cityId = cityId;
+    }
+    
+    // Getters and Setters
+
+    public Long getId() {
+        return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public LocalDate getTripStartDate() {
+        return tripStartDate;
+    }
+
+    public void setTripStartDate(LocalDate tripStartDate) {
+        this.tripStartDate = tripStartDate;
+    }
+
+    public LocalDate getTripEndDate() {
+        return tripEndDate;
+    }
+
+    public void setTripEndDate(LocalDate tripEndDate) {
+        this.tripEndDate = tripEndDate;
+    }
+
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public CityEntity getCity() {
+        return city;
+    }
+
+    public void setCity(CityEntity city) {
+        this.city = city;
+    }
 
 }
