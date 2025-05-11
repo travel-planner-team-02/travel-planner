@@ -2,7 +2,7 @@ package com.laioffer.travelplannerbe.model;
 
 import jakarta.persistence.*;
 
-import java.awt.*;
+import org.locationtech.jts.geom.Point;
 import java.util.Objects;
 
 @Entity
@@ -12,6 +12,7 @@ public class CityEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(columnDefinition = "geometry(Point,4326)")
     private Point location;
 
     public CityEntity() {
@@ -27,13 +28,26 @@ public class CityEntity {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Point getLocation() {
         return location;
     }
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }
+
     @Override
     public String toString() {
         return "CityEntity{" +
@@ -45,9 +59,11 @@ public class CityEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof CityEntity)) return false;
         CityEntity that = (CityEntity) o;
-        return id.equals(that.id) && name.equals(that.name) && location.equals(that.location);
+        return Objects.equals(id, that.id) &&
+               Objects.equals(name, that.name) &&
+               Objects.equals(location, that.location);
     }
 
     @Override
