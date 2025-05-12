@@ -13,6 +13,9 @@ public class UserEntity{
     private String username;
     private String password;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TripEntity> trips;
+
     public UserEntity() {
     }
 
@@ -34,8 +37,17 @@ public class UserEntity{
         return password;
     }
 
+    public List<TripEntity> getTrips() {
+        return trips;
+    }
+
+    public void setTrips(List<TripEntity> trips) {
+        this.trips = trips;
+    }
+
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
         return Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password);
