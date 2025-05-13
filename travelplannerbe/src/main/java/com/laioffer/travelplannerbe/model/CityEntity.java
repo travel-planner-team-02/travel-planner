@@ -14,9 +14,6 @@ public class CityEntity {
     private String name;
     @Column(columnDefinition = "geometry(Point,4326)")
     private Point location;
-    //one city can be mapped to many trips
-    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TripEntity> trips = new ArrayList<>();
 
     public CityEntity() {
     }
@@ -39,10 +36,6 @@ public class CityEntity {
 
     public Point getLocation() {
         return location;
-    }
-    
-    public List<TripEntity> getTrips() {
-        return trips;
     }
 
     @Override
