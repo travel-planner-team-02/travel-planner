@@ -6,13 +6,31 @@ import java.util.Objects;
 
 @Embeddable
 public class TripSiteKey  implements java.io.Serializable{
+    @Column(name = "trip_id")
     private Long tripId;
+
+    @Column(name = "site_id")
     private Long siteId;
 
     public TripSiteKey() {
     }
     public TripSiteKey(Long tripId, Long siteId) {
         this.tripId = tripId;
+        this.siteId = siteId;
+    }
+     public Long getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(Long tripId) {
+        this.tripId = tripId;
+    }
+
+    public Long getSiteId() {
+        return siteId;
+    }
+
+    public void setSiteId(Long siteId) {
         this.siteId = siteId;
     }
 

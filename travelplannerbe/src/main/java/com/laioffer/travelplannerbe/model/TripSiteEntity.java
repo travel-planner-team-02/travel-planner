@@ -34,4 +34,60 @@ public class TripSiteEntity {
         this.site = site;
         this.visitDate = visitDate;
     }
+
+    public TripSiteKey getId() {
+        return id;
+    }
+
+    public void setId(TripSiteKey id) {
+        this.id = id;
+    }
+
+    public TripEntity getTrip() {
+        return trip;
+    }
+
+    public void setTrip(TripEntity trip) {
+        this.trip = trip;
+    }
+
+    public SiteEntity getSite() {
+        return site;
+    }
+
+    public void setSite(SiteEntity site) {
+        this.site = site;
+    }
+
+    public LocalDate getVisitDate() {
+        return visitDate;
+    }
+
+    public void setVisitDate(LocalDate visitDate) {
+        this.visitDate = visitDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TripSiteEntity)) return false;
+        TripSiteEntity that = (TripSiteEntity) o;
+        return Objects.equals(id, that.id) &&
+               Objects.equals(visitDate, that.visitDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, visitDate);
+    }
+
+    @Override
+    public String toString() {
+        return "TripSiteEntity{" +
+                "tripId=" + (trip != null ? trip.getId() : "null") +
+                ", siteId=" + (site != null ? site.getId() : "null") +
+                ", siteName=" + (site != null ? site.getName() : "null") +
+                ", visitDate=" + visitDate +
+                '}';
+    }
 }
