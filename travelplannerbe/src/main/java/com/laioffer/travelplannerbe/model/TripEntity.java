@@ -39,8 +39,6 @@ public class TripEntity {
         this.tripEndDate = tripEndDate;
         this.cityId = cityId;
     }
-    
-    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -97,5 +95,34 @@ public class TripEntity {
     public void setCity(CityEntity city) {
         this.city = city;
     }
+
+    @Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    TripEntity that = (TripEntity) o;
+    return Objects.equals(id, that.id)
+            && Objects.equals(userId, that.userId)
+            && Objects.equals(cityId, that.cityId)
+            && Objects.equals(tripStartDate, that.tripStartDate)
+            && Objects.equals(tripEndDate, that.tripEndDate);
+}
+
+@Override
+public int hashCode() {
+    return Objects.hash(id, userId, cityId, tripStartDate, tripEndDate);
+}
+
+@Override
+public String toString() {
+    return "TripEntity{" +
+            "id=" + id +
+            ", userId=" + userId +
+            ", cityId=" + cityId +
+            ", cityName=" + (city != null ? city.getName() : "null") +
+            ", tripStartDate=" + tripStartDate +
+            ", tripEndDate=" + tripEndDate +
+            '}';
+}
 
 }
