@@ -14,6 +14,9 @@ public class CityEntity {
     private String name;
     @Column(columnDefinition = "geometry(Point,4326)")
     private Point location;
+    //one city can be mapped to many trips
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TripEntity> trips = new ArrayList<>();
 
     public CityEntity() {
     }
@@ -24,28 +27,22 @@ public class CityEntity {
         this.location = location;
     }
 
+    //we don't need setter methods because we do not want to change
+    //the name or loaction after the city is created
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Point getLocation() {
         return location;
     }
-
-    public void setLocation(Point location) {
-        this.location = location;
+    
+    public List<TripEntity> getTrips() {
+        return trips;
     }
 
     @Override
