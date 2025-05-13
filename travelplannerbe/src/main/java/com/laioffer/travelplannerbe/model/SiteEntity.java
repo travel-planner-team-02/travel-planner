@@ -90,4 +90,18 @@ public class SiteEntity {
     public int hashCode() {
         return Objects.hash(id, name, description, address, rating, imageUrls, city, visitTime);
     }
+
+    @Override
+    public String toString() {
+        return "SiteEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", address='" + address + '\'' +
+                ", rating=" + rating +
+                ", visitTime=" + visitTime +
+                ", city=" + (city != null ? city.getName() : "null") +
+                ", imageUrlsCount=" + (imageUrls != null ? imageUrls.size() : 0) +
+                '}';
+    }
 }
