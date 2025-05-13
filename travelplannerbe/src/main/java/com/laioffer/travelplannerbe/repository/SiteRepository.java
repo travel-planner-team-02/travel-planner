@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface SiteRepository extends JpaRepository<SiteEntity, Long> {
 
-    List<SiteEntity> findByCityName(String cityName);
+    //List<SiteEntity> findByCityName(String cityName);
+    List<SiteEntity> findByCityId(Long cityId);
 
     List<SiteEntity> findByName(String name);
 }
