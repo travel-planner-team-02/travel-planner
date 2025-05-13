@@ -104,42 +104,42 @@ public class DevRunner implements ApplicationRunner {
         siteRepository.saveAll(List.of(
                 new SiteEntity(null, "Golden Gate Bridge", "Iconic red suspension bridge.",
                         "Golden Gate Bridge, SF", new CityEntity(1L, null, null),
-                        4.8, List.of("https://img1", "https://img2")),
+                        4.8, List.of("https://img1", "https://img2"), 30),
                 new SiteEntity(null, "Alcatraz Island", "Historic former prison island.",
                         "San Francisco Bay", new CityEntity(1L, null, null),
-                        4.6, List.of("https://example.com/alcatraz1.jpg")),
+                        4.6, List.of("https://example.com/alcatraz1.jpg"), 120),
 
                 new SiteEntity(null, "Griffith Observatory", "Great views of LA and the stars.",
                         "Los Angeles", new CityEntity(2L, null, null),
-                        4.7, List.of("https://example.com/griffith1.jpg")),
+                        4.7, List.of("https://example.com/griffith1.jpg"), 60),
 
                 new SiteEntity(null, "Hollywood Sign", "Famous landmark in LA hills.",
                         "Mount Lee, Los Angeles", new CityEntity(2L, null, null),
-                        4.5, List.of("https://example.com/hollywood1.jpg")),
+                        4.5, List.of("https://example.com/hollywood1.jpg"), 30),
 
                 new SiteEntity(null, "Winchester Mystery House", "Sprawling, maze-like Victorian mansion.",
                         "San Jose", new CityEntity(3L, null, null),
-                        4.2, List.of("https://example.com/winchester1.jpg")),
+                        4.2, List.of("https://example.com/winchester1.jpg"), 90),
 
                 new SiteEntity(null, "The Tech Interactive", "Tech museum for all ages.",
                         "Downtown San Jose", new CityEntity(3L, null, null),
-                        4.4, List.of("https://example.com/tech1.jpg")),
+                        4.4, List.of("https://example.com/tech1.jpg"), 60),
 
                 new SiteEntity(null, "Central Park", "Massive urban park in NYC.",
                         "Manhattan, New York", new CityEntity(4L, null, null),
-                        4.9, List.of("https://example.com/centralpark1.jpg", "https://example.com/centralpark2.jpg")),
+                        4.9, List.of("https://example.com/centralpark1.jpg", "https://example.com/centralpark2.jpg"), 90),
 
                 new SiteEntity(null, "Statue of Liberty", "Iconic symbol of freedom.",
                         "Liberty Island, NYC", new CityEntity(4L, null, null),
-                        4.8, List.of("https://example.com/liberty1.jpg")),
+                        4.8, List.of("https://example.com/liberty1.jpg"), 60),
 
                 new SiteEntity(null, "Times Square", "Bright lights and entertainment hub.",
                         "Manhattan, NYC", new CityEntity(4L, null, null),
-                        4.3, List.of("https://example.com/times1.jpg")),
+                        4.3, List.of("https://example.com/times1.jpg"), 30),
 
                 new SiteEntity(null, "Exploratorium", "Interactive science museum.",
                         "Pier 15, San Francisco", new CityEntity(1L, null, null),
-                        4.6, List.of("https://example.com/exploratorium1.jpg"))
+                        4.6, List.of("https://example.com/exploratorium1.jpg"), 90)
         ));
 
         LocalDate today = LocalDate.now();
@@ -161,52 +161,52 @@ public class DevRunner implements ApplicationRunner {
                 new TripSiteEntity(
                         new TripSiteKey(1L, 1L),
                         new TripEntity(1L, null, null, null, null),
-                        new SiteEntity(1L, null, null, null, null, null, null),
+                        new SiteEntity(1L, null, null, null, null, null, null, null),
                         today.minusDays(10)),
                 new TripSiteEntity(
                         new TripSiteKey(1L, 2L),
                         new TripEntity(1L, null, null, null, null),
-                        new SiteEntity(2L, null, null, null, null, null, null),
+                        new SiteEntity(2L, null, null, null, null, null, null, null),
                         today.minusDays(9)),
                 new TripSiteEntity(
                         new TripSiteKey(2L, 3L),
                         new TripEntity(2L, null, null, null, null),
-                        new SiteEntity(3L, null, null, null, null, null, null),
+                        new SiteEntity(3L, null, null, null, null, null, null, null),
                         today.minusDays(29)),
                 new TripSiteEntity(
                         new TripSiteKey(3L, 1L),
                         new TripEntity(3L, null, null, null, null),
-                        new SiteEntity(1L, null, null, null, null, null, null),
+                        new SiteEntity(1L, null, null, null, null, null, null, null),
                         today.minusDays(19)),
                 new TripSiteEntity(
                         new TripSiteKey(3L, 4L),
                         new TripEntity(3L, null, null, null, null),
-                        new SiteEntity(4L, null, null, null, null, null, null),
+                        new SiteEntity(4L, null, null, null, null, null, null, null),
                         today.minusDays(18)),
                 new TripSiteEntity(
                         new TripSiteKey(4L, 5L),
                         new TripEntity(4L, null, null, null, null),
-                        new SiteEntity(5L, null, null, null, null, null, null),
+                        new SiteEntity(5L, null, null, null, null, null, null, null),
                         today.minusDays(49)),
                 new TripSiteEntity(
                         new TripSiteKey(5L, 6L),
                         new TripEntity(5L, null, null, null, null),
-                        new SiteEntity(6L, null, null, null, null, null, null),
+                        new SiteEntity(6L, null, null, null, null, null, null, null),
                         today.minusDays(59)),
                 new TripSiteEntity(
                         new TripSiteKey(6L, 7L),
                         new TripEntity(6L, null, null, null, null),
-                        new SiteEntity(7L, null, null, null, null, null, null),
+                        new SiteEntity(7L, null, null, null, null, null, null, null),
                         today.minusDays(89)),
                 new TripSiteEntity(
                         new TripSiteKey(7L, 8L),
                         new TripEntity(7L, null, null, null, null),
-                        new SiteEntity(8L, null, null, null, null, null, null),
+                        new SiteEntity(8L, null, null, null, null, null, null, null),
                         today.minusDays(14)),
                 new TripSiteEntity(
                         new TripSiteKey(8L, 9L),
                         new TripEntity(8L, null, null, null, null),
-                        new SiteEntity(9L, null, null, null, null, null, null),
+                        new SiteEntity(9L, null, null, null, null, null, null, null),
                         today.minusDays(119))
         ));
     }

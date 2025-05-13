@@ -16,7 +16,7 @@ public class SiteEntity {
     private String address;
     private Double rating;
     private Integer visitTime; // in minutes
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "site_images", joinColumns = @JoinColumn(name = "site_id"))
     @Column(name = "image_url")
     private List<String> imageUrls = new ArrayList<>();
