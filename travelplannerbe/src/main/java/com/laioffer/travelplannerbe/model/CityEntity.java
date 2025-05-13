@@ -3,7 +3,7 @@ package com.laioffer.travelplannerbe.model;
 import jakarta.persistence.*;
 
 import org.locationtech.jts.geom.Point;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "cities")
