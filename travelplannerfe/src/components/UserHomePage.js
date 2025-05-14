@@ -2,7 +2,8 @@ import React from "react";
 
 import { useState } from "react";
 
-function UsertHomePage() { 
+function UsertHomePage({ username }) { 
+    console.log("username: ", username);
     return (
         <div>
             UserHomePage
@@ -10,4 +11,4 @@ function UsertHomePage() {
     )
 }
 
-export default UsertHomePage
+export default UsertHomePage;

@@ -1,49 +1,48 @@
 const domin = "http://localhost:8080"
 
 export const login = (credential) => { 
-    // const loginUrl = `${domin}/auth/login`;
-    // const networkRequestStatus = fetch(loginUrl,
-    //     {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": " application/json"
-    //         },
-    //         body: JSON.stringify(credential)
-    //     }
-    // );
-    // networkRequestStatus.then((response) => { 
-    //     if (response.status >= 300) { 
-    //         throw Error("Fail to log in");
-    //     }
+    const loginUrl = `${domin}/auth/login`;
+    const networkRequestStatus = fetch(loginUrl,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(credential)
+        }
+    );
+    return networkRequestStatus.then((response) => { 
+        if (response.status >= 300) { 
+            throw Error("Fail to log in");
+        }
 
-    //     return response.json();
-    // });
-    return Promise.resolve({
-        token: "mock-token-123",
-        username: credential.username
-      });
+        return response.json();
+    });
 }
 
 export const register = (credential) => { 
-  // const loginUrl = `${domin}/auth/login`;
-  // const networkRequestStatus = fetch(loginUrl,
-  //     {
-  //         method: "POST",
-  //         headers: {
-  //             "Content-Type": " application/json"
-  //         },
-  //         body: JSON.stringify(credential)
-  //     }
-  // );
-  // networkRequestStatus.then((response) => { 
-  //     if (response.status >= 300) { 
-  //         throw Error("Fail to log in");
-  //     }
-
-  //     return response.json();
-  // });
-  return Promise.resolve({
-      token: "mock-token-123",
-      username: credential.username
+    const registerUrl = `${domin}/auth/register`;
+    return fetch(registerUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(credential)
+    }).then((response) => {
+        if (response.status >= 300) {
+            throw Error("Fail to register");
+        }
+        return response.json(); // return 给上层
     });
+}
+
+// parse the tkoen to get username
+export function parseJwt(token) {
+    try {
+        const base64Payload = token.split(".")[1];
+        const decoded = JSON.parse(atob(base64Payload));
+        return decoded;
+    } catch (e) {
+        return null;
+    }
 }

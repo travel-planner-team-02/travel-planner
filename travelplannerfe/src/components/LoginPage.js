@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Modal, Form, Input, message, Space } from "antd";
-import { login, register } from "../utils";
+import { login, register} from "../utils";
 
 class LoginPage extends React.Component { 
     loginformRef = React.createRef();
@@ -13,6 +13,7 @@ class LoginPage extends React.Component {
     };
 
     handleLogin = async () => { 
+        console.log("clicked on login");
         const loginformInstance = this.loginformRef.current;
 
         try {
@@ -25,8 +26,11 @@ class LoginPage extends React.Component {
 
         try { 
             const resp = await login(loginformInstance.getFieldsValue(true));
+            console.log("called login api");
             this.props.handleLoginSuccess(resp.token);
+            console.log("got token from backend");
             this.setState({ showLoginModal: false });
+            console.log("Login successful, closing modal");
         } catch (error){
             message.error(error.message);
         } finally {
@@ -35,6 +39,7 @@ class LoginPage extends React.Component {
     }
 
     handleRegister = async () => { 
+        console.log("clicked on register");
         const registerformRef = this.registerformRef.current;
 
         try {
@@ -42,13 +47,16 @@ class LoginPage extends React.Component {
         } catch (error) {
             return;
         }
-
+        console.log("validate");
         this.setState({ loading: true });
 
         try {
             const resp = await register(registerformRef.getFieldsValue(true));
+            console.log("called register api");
             this.props.handleRegisterSuccess(resp.token);
-            this.setState({ showRegisterModal : false});
+            console.log("got token from backend");
+            this.setState({ showRegisterModal: false });
+            console.log("Registration successful, closing modal");
         } catch (error) {
             message.error(error.message);
         } finally {
@@ -133,4 +141,4 @@ class LoginPage extends React.Component {
     }
 }
 
-export default LoginPage
+export default LoginPage;

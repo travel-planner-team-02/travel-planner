@@ -3,24 +3,51 @@ import { UserOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Layout } from "antd";
 import LoginPage from "./components/LoginPage";
 import UserHomePage from "./components/UserHomePage";
+import {parseJwt} from "./utils"
 
 const { Header, Content } = Layout;
 
 class App extends React.Component { 
     state = {
         authed: false,
+        username: null
+    }
+
+    componentDidMount() { 
+        const authToken = localStorage.getItem("authToken");
+        
+        if (authToken) {
+            const parsed = parseJwt(authToken);
+            this.setState({
+                authed: true,
+                username: parsed?.sub || null,
+            })
+        }
     }
 
     handleLoginSuccess = (token) => { 
         localStorage.setItem("authToken", token);
+        const parsed = parseJwt(token);
         this.setState({
             authed: true,
+            username: parsed?.sub || null,
         });
     }
+
     handleRegisterSuccess = (token) => { 
         localStorage.setItem("authToken", token);
+        const parsed = parseJwt(token);
         this.setState({
             authed: true,
+            username: parsed?.sub || null,
+        });
+    }
+
+    handleLogOut = () => {
+        localStorage.removeItem("authToken");
+        this.setState({
+            authed: false,
+            username: null
         });
     }
 
@@ -32,13 +59,13 @@ class App extends React.Component {
                 handleRegisterSuccess={this.handleRegisterSuccess} />
         }
 
-        return <UserHomePage/>
+        return <UserHomePage username={ this.state.username}/>
     }
 
     render() { 
         return (
             <Layout style={{height: "100vh"}}>
-                <Header style={{display:"flex", justifyContent: "space-between", backgroundColor: "#34e5eb"}}>
+                <Header style={{display:"flex", justifyContent: "space-between", backgroundColor: "#2c3e50"}}>
                     <div style={{fontSize: 20, fontWeight: 600, color:"white"}}>
                         Travel Planner
                     </div>
@@ -46,7 +73,7 @@ class App extends React.Component {
                         { 
                             this.state.authed && (
                                 <div>
-                                    <Button onClick={() => this.setState({ authed : false })} shape="round" type="primary">
+                                    <Button onClick={this.handleLogOut} shape="round" type="primary">
                                         LogOut
                                     </Button>
                                 </div>
