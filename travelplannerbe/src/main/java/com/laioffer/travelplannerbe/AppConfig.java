@@ -28,6 +28,8 @@ public class AppConfig {
                                 .requestMatchers(HttpMethod.POST, "/**").permitAll()
                                 // Allow anonymous access to trip， for development
                                 .requestMatchers(HttpMethod.GET, "/trip/**").permitAll()
+                                // Allow anonymous access to cities， for development
+                                .requestMatchers(HttpMethod.GET, "/cities/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement()
