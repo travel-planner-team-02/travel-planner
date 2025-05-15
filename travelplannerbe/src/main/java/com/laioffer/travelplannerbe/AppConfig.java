@@ -26,6 +26,8 @@ public class AppConfig {
                 .authorizeHttpRequests(auth ->
                         auth    // Allow anonymous access to register and login only
                                 .requestMatchers(HttpMethod.POST, "/**").permitAll()
+                                // Allow anonymous access to trip， for development
+                                .requestMatchers(HttpMethod.GET, "/trip/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement()

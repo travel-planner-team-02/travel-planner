@@ -1,7 +1,7 @@
-const domin = "http://localhost:8080"
+const domain = "http://localhost:8080"
 
 export const login = (credential) => { 
-    const loginUrl = `${domin}/auth/login`;
+    const loginUrl = `${domain}/auth/login`;
     const networkRequestStatus = fetch(loginUrl,
         {
             method: "POST",
@@ -21,7 +21,7 @@ export const login = (credential) => {
 }
 
 export const register = (credential) => { 
-    const registerUrl = `${domin}/auth/register`;
+    const registerUrl = `${domain}/auth/register`;
     return fetch(registerUrl, {
         method: "POST",
         headers: {
@@ -34,6 +34,23 @@ export const register = (credential) => {
         }
         return response.json(); // return 给上层
     });
+}
+
+export const getTripsByUserId = () => {
+    const authToken = localStorage.getItem("authToken");
+    const listTripssURL = `${domain}/trips`;
+
+    return fetch(listTripssURL,
+        {
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+            }
+        }).then((response) => {
+            if (response.status >= 300) {
+                throw Error("Fail to get trip list")
+            }
+            return response.json();
+        })
 }
 
 // parse the tkoen to get username

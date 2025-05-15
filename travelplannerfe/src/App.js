@@ -1,6 +1,5 @@
 import React from "react";
-import { UserOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Layout } from "antd";
+import { Button, Layout } from "antd";
 import LoginPage from "./components/LoginPage";
 import UserHomePage from "./components/UserHomePage";
 import {parseJwt} from "./utils"
@@ -10,7 +9,7 @@ const { Header, Content } = Layout;
 class App extends React.Component { 
     state = {
         authed: false,
-        username: null
+        username: null,
     }
 
     componentDidMount() { 
