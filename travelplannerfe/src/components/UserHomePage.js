@@ -8,8 +8,9 @@ import { getTrips, getCityInfoByCityId } from "../utils";
 const { Sider } = Layout;
 
 
-function UsertHomePage({ username }) { 
+function UsertHomePage({ username, authed }) { 
     const [trips, setTrips] = useState([]);
+    const [selectTrip, setSelectTrip] = useState(null);
 
     useEffect(() => {
         const fetchTrips = async () => {
@@ -26,20 +27,25 @@ function UsertHomePage({ username }) {
                     }
                 })
             );
-
+            //console.log("enriched trips: ", enriched);
             setTrips(enriched);
         };
 
         fetchTrips();
     }, []);
 
+    const handleSelectTrip = (trip) => {
+        console.log("selected trip:", trip);
+        setSelectTrip(trip);
+    };
+
     return (
         <Layout style={{ minHeight: "100vh", }}>
             <Sider width={500}>
-                <TripSider username={username} trips={ trips} />
+                <TripSider username={username} trips={trips} onTripClick={handleSelectTrip} />
             </Sider>
             <Layout style={{ padding: "24px", height: "100vh", background: "#eef2f5"}}>
-                <MapContent />
+                {authed && <MapContent selectTrip={selectTrip} />}
             </Layout>
         </Layout>
     )

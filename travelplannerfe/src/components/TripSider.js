@@ -4,9 +4,6 @@ import TripList from "./TripList";
 
 class TripSider extends React.Component {
 
-    handleTripClick = (trip) => {
-        console.log("clicked trip ", trip);
-    };
 
     render() {
 
@@ -20,7 +17,7 @@ class TripSider extends React.Component {
                 + Create a trip
             </Button>
 
-            <TripList trips={this.props.trips} onTripClick={this.handleTripClick} />
+            <TripList trips={this.props.trips} onTripClick={this.props.onTripClick} />
         </div>
         );
     }

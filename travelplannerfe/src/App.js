@@ -30,6 +30,8 @@ class App extends React.Component {
         this.setState({
             authed: true,
             username: parsed?.sub || null,
+        }, () => {
+            window.location.reload();
         });
     }
 
@@ -39,6 +41,8 @@ class App extends React.Component {
         this.setState({
             authed: true,
             username: parsed?.sub || null,
+        }, () => {
+            window.location.reload();
         });
     }
 
@@ -47,6 +51,8 @@ class App extends React.Component {
         this.setState({
             authed: false,
             username: null
+        }, () => {
+            window.location.reload();
         });
     }
 
@@ -58,7 +64,7 @@ class App extends React.Component {
                 handleRegisterSuccess={this.handleRegisterSuccess} />
         }
 
-        return <UserHomePage username={ this.state.username}/>
+        return <UserHomePage username={this.state.username} authed={ this.state.authed} />
     }
 
     render() { 

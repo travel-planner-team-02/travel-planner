@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "antd";
 
 function TripList({ trips, onTripClick }) {
+
     return (
         <div >
             <div style={{ fontSize: 14, marginBottom: 8 }}>
@@ -24,7 +25,7 @@ function TripList({ trips, onTripClick }) {
                          }}
                         onClick={() => onTripClick(trip)}
                      >
-                        {trip.cityName.replace(/_/g, " ") || "Loading..."}
+                        {trip.cityName || "Loading..."}
                     </Button>
     ))
 )}
