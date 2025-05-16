@@ -1,25 +1,14 @@
 import React from "react";
 import { Button } from "antd";
-import { getTripsByUserId } from "../utils";
 import TripList from "./TripList";
 
 class TripSider extends React.Component {
-    state = {
-        trips: [],
-    };
-
-    componentDidMount() {
-        getTripsByUserId(this.props.username).then((trips) => {
-        this.setState({ trips });
-        });
-    }
 
     handleTripClick = (trip) => {
         console.log("clicked trip ", trip);
     };
 
     render() {
-        const { trips } = this.state;
 
         return (
         <div style={{ width: 500, background: "#2c3e50", color: "#fff", height: "100%", padding: 16 }}>
@@ -31,7 +20,7 @@ class TripSider extends React.Component {
                 + Create a trip
             </Button>
 
-            <TripList trips={trips} onTripClick={this.handleTripClick} />
+            <TripList trips={this.props.trips} onTripClick={this.handleTripClick} />
         </div>
         );
     }

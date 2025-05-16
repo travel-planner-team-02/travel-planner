@@ -36,7 +36,7 @@ export const register = (credential) => {
     });
 }
 
-export const getTripsByUserId = () => {
+export const getTrips = () => {
     const authToken = localStorage.getItem("authToken");
     const listTripssURL = `${domain}/trips`;
 
@@ -51,6 +51,23 @@ export const getTripsByUserId = () => {
             }
             return response.json();
         })
+}
+
+export const getCityInfoByCityId = (cityId) => {
+    const authToken = localStorage.getItem("authToken");
+    const getCityInfoByCityIdURL = `${domain}/cities/${cityId}`;
+    return fetch(getCityInfoByCityIdURL, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+        }
+    }).then((response) => {
+        if (response.status >= 300) {
+            throw Error("Failed to fetch city info")
+        }
+        return response.json();
+    });
 }
 
 // parse the tkoen to get username

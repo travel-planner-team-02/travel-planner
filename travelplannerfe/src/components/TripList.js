@@ -24,7 +24,7 @@ function TripList({ trips, onTripClick }) {
                          }}
                         onClick={() => onTripClick(trip)}
                      >
-                        {trip.cityId}
+                        {trip.cityName.replace(/_/g, " ") || "Loading..."}
                     </Button>
     ))
 )}
