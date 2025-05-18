@@ -1,12 +1,9 @@
 package com.laioffer.travelplannerbe.controller;
 
-import com.laioffer.travelplannerbe.model.TripDTO;
-import com.laioffer.travelplannerbe.model.UserEntity;
+import com.laioffer.travelplannerbe.model.*;
 import com.laioffer.travelplannerbe.service.TripsService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +20,12 @@ public class TripsController {
     @GetMapping
     public List<TripDTO> getTripsByUserId(@AuthenticationPrincipal UserEntity user) {
         return tripsService.getTripsByUserId(user.getId());
+    }
+
+    @GetMapping("/{tripId}/sites")
+    public List<SiteDTO> getSitesByTripId(
+            @AuthenticationPrincipal UserEntity user,
+            @PathVariable Long tripId) {
+        return tripsService.getSitesByTripId(user.getId(), tripId);
     }
 }

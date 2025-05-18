@@ -1,6 +1,7 @@
 package com.laioffer.travelplannerbe.model;
 
 import jakarta.persistence.*;
+import org.locationtech.jts.geom.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +21,8 @@ public class SiteEntity {
     @CollectionTable(name = "site_images", joinColumns = @JoinColumn(name = "site_id"))
     @Column(name = "image_url")
     private List<String> imageUrls = new ArrayList<>();
+    @Column(columnDefinition = "geometry(Point, 4326)")
+    private Point location;
 
     @ManyToOne
     @JoinColumn(name = "city_id", foreignKey = @ForeignKey(name = "fk_city_id"))
@@ -29,7 +32,7 @@ public class SiteEntity {
     }
 
     public SiteEntity(Long id, String name, String description, String address, CityEntity city,
-     Double rating, List<String> imageUrls, Integer visitTime) {
+     Double rating, List<String> imageUrls, Integer visitTime, Point location) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,6 +41,7 @@ public class SiteEntity {
         this.rating = rating;
         this.imageUrls = imageUrls;
         this.visitTime = visitTime;
+        this.location = location;
     }
 
     public Long getId() {
@@ -60,7 +64,7 @@ public class SiteEntity {
         return rating;
     }
 
-    public List<String> getimageUrls() {
+    public List<String> getImageUrls() {
         return imageUrls;
     }
 
@@ -70,6 +74,10 @@ public class SiteEntity {
 
     public Integer getVisitTime() {
         return visitTime;
+    }
+
+    public Point getLocation() {
+        return location;
     }
 
     @Override
@@ -83,12 +91,13 @@ public class SiteEntity {
         && Objects.equals(rating, that.rating)
         && Objects.equals(imageUrls, that.imageUrls)
         && Objects.equals(visitTime, that.visitTime)
-        && Objects.equals(city, that.city);
+        && Objects.equals(city, that.city)
+        && Objects.equals(location, that.location);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, address, rating, imageUrls, city, visitTime);
+        return Objects.hash(id, name, description, address, rating, imageUrls, city, visitTime, location);
     }
 
     @Override
@@ -102,6 +111,7 @@ public class SiteEntity {
                 ", visitTime=" + visitTime +
                 ", city=" + (city != null ? city.getName() : "null") +
                 ", imageUrlsCount=" + (imageUrls != null ? imageUrls.size() : 0) +
+                ", location=" + location +
                 '}';
     }
 }

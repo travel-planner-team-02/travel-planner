@@ -13,7 +13,7 @@ const usCenter = {
   lng: -98.5795,
 };
 
-function MapContent({ selectTrip}) {
+function MapContent({ selectTrip, selectSite }) {
   const mapRef = useRef(null);
   const [isMapReady, setIsMapReady] = useState(false);
 
@@ -23,36 +23,49 @@ function MapContent({ selectTrip}) {
     console.log("Google Map loaded");
   }, []);
 
-  const location = selectTrip?.cityInfo?.location
+  const cityLocation = selectTrip?.cityInfo?.location
     ? {
         lat: selectTrip.cityInfo.location.lat,
-        lng: selectTrip.cityInfo.location.lon, 
+        lng: selectTrip.cityInfo.location.lon,
       }
     : usCenter;
+
+  const siteLocation = selectSite?.location
+    ? {
+        lat: selectSite.location.lat,
+        lng: selectSite.location.lon,
+      }
+    : null;
 
   useEffect(() => {
     if (!isMapReady) return;
 
-    if (selectTrip?.cityInfo?.location && mapRef.current) {
-      mapRef.current.panTo(location);
+    if (cityLocation && mapRef.current) {
+      mapRef.current.panTo(cityLocation);
       mapRef.current.setZoom(12);
     } else if (mapRef.current) {
       mapRef.current.panTo(usCenter);
       mapRef.current.setZoom(4);
     }
-  }, [selectTrip, isMapReady]);
+  }, [selectTrip, isMapReady, cityLocation]);
+
+  useEffect(() => {
+    if (!isMapReady || !siteLocation || !mapRef.current) return;
+
+    mapRef.current.panTo(siteLocation);
+    mapRef.current.setZoom(15);
+  }, [selectSite, isMapReady, siteLocation]);
 
   return (
-    <LoadScript
-      googleMapsApiKey={google_map_api_key}
-    >
+    <LoadScript googleMapsApiKey={google_map_api_key}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={usCenter}
         zoom={4}
         onLoad={onLoad}
       >
-        {selectTrip && <Marker position={location} />}
+
+        {selectSite && <Marker position={siteLocation} />}
       </GoogleMap>
     </LoadScript>
   );

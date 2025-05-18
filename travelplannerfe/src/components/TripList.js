@@ -15,7 +15,9 @@ function TripList({ trips, onTripClick }) {
                 </div>
                 ) : (
                  trips.map((trip) => (
-                     <Button key={trip.id} block
+                     <Button
+                         key={trip.id}
+                         block
                         style={{
                             textAlign: "center",
                             marginBottom: 8,

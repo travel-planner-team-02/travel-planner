@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "antd";
 import TripList from "./TripList";
+import TripDetail from "./TripDetail";
 
 class TripSider extends React.Component {
 
@@ -17,7 +18,20 @@ class TripSider extends React.Component {
                 + Create a trip
             </Button>
 
-            <TripList trips={this.props.trips} onTripClick={this.props.onTripClick} />
+                { this.props.selectTrip == null ? (
+                    <TripList
+                        trips={this.props.trips}
+                        onTripClick={this.props.onTripClick}
+                    />
+                ) : (
+                        <TripDetail
+                            selectTrip={this.props.selectTrip}
+                            selectSite = {this.props.onSiteClick}
+                            tripsites={this.props.tripsites}
+                            onBack={this.props.onBack}
+                        />
+                    )
+                }
         </div>
         );
     }

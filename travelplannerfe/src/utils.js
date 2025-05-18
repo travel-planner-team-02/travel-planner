@@ -70,6 +70,23 @@ export const getCityInfoByCityId = (cityId) => {
     });
 }
 
+export const getTripDetailByTripId = (tripId) => {
+    const authToken = localStorage.getItem("authToken");
+    const getTripDetailByTripIdURL = `${domain}/trips/${tripId}/sites`;
+    return fetch(getTripDetailByTripIdURL, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+        }
+    }).then((response) => {
+        if (response.status >= 300) {
+            throw Error("Failed to fetch city info")
+        }
+        return response.json();
+    });
+}
+
 // parse the tkoen to get username
 export function parseJwt(token) {
     try {
