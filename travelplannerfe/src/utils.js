@@ -1,6 +1,6 @@
 const domain = "http://localhost:8080"
 
-export const login = (credential) => { 
+export const login = (credential) => {
     const loginUrl = `${domain}/auth/login`;
     const networkRequestStatus = fetch(loginUrl,
         {
@@ -11,8 +11,8 @@ export const login = (credential) => {
             body: JSON.stringify(credential)
         }
     );
-    return networkRequestStatus.then((response) => { 
-        if (response.status >= 300) { 
+    return networkRequestStatus.then((response) => {
+        if (response.status >= 300) {
             throw Error("Fail to log in");
         }
 
@@ -20,7 +20,7 @@ export const login = (credential) => {
     });
 }
 
-export const register = (credential) => { 
+export const register = (credential) => {
     const registerUrl = `${domain}/auth/register`;
     return fetch(registerUrl, {
         method: "POST",
@@ -69,6 +69,20 @@ export const getCityInfoByCityId = (cityId) => {
         return response.json();
     });
 }
+
+export const getSitesByCityId = (cityId) => {
+    const authToken = localStorage.getItem("authToken");
+    return fetch(`${domain}/cities/${cityId}/sites`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+        }
+    }).then((res) => {
+        if (res.status >= 300) throw Error("Failed to fetch sites for city");
+        return res.json();
+    });
+};
 
 export const getTripDetailByTripId = (tripId) => {
     const authToken = localStorage.getItem("authToken");

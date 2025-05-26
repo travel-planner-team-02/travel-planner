@@ -1,30 +1,31 @@
 import React from "react";
 import { Button, Layout } from "antd";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
 import UserHomePage from "./components/UserHomePage";
-import {parseJwt} from "./utils"
+import CityDetailPage from "./components/CityDetailPage";
+import { parseJwt } from "./utils";
 
 const { Header, Content } = Layout;
 
-class App extends React.Component { 
+class App extends React.Component {
     state = {
         authed: false,
         username: null,
     }
 
-    componentDidMount() { 
+    componentDidMount() {
         const authToken = localStorage.getItem("authToken");
-        
         if (authToken) {
             const parsed = parseJwt(authToken);
             this.setState({
                 authed: true,
                 username: parsed?.sub || null,
-            })
+            });
         }
     }
 
-    handleLoginSuccess = (token) => { 
+    handleLoginSuccess = (token) => {
         localStorage.setItem("authToken", token);
         const parsed = parseJwt(token);
         this.setState({
@@ -35,7 +36,7 @@ class App extends React.Component {
         });
     }
 
-    handleRegisterSuccess = (token) => { 
+    handleRegisterSuccess = (token) => {
         localStorage.setItem("authToken", token);
         const parsed = parseJwt(token);
         this.setState({
@@ -50,46 +51,61 @@ class App extends React.Component {
         localStorage.removeItem("authToken");
         this.setState({
             authed: false,
-            username: null
+            username: null,
         }, () => {
             window.location.reload();
         });
     }
 
-
-    renderContent = () => { 
-        if (!this.state.authed) { 
-            return <LoginPage
-                handleLoginSuccess={this.handleLoginSuccess}
-                handleRegisterSuccess={this.handleRegisterSuccess} />
-        }
-
-        return <UserHomePage username={this.state.username} authed={ this.state.authed} />
-    }
-
-    render() { 
+    render() {
         return (
-            <Layout style={{height: "100vh"}}>
-                <Header style={{display:"flex", justifyContent: "space-between", backgroundColor: "#2c3e50"}}>
-                    <div style={{fontSize: 20, fontWeight: 600, color:"white"}}>
-                        Travel Planner
-                    </div>
-                    <div>
-                        { 
-                            this.state.authed && (
-                                <div>
-                                    <Button onClick={this.handleLogOut} shape="round" type="primary">
-                                        LogOut
-                                    </Button>
-                                </div>
-                            )
-                        }
-                    </div>
-                </Header>
-                <Content>
-                    {this.renderContent()}
-                </Content>
-            </Layout>
+            <Router>
+                <Layout style={{ height: "100vh" }}>
+                    <Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#2c3e50" }}>
+                        <div style={{ fontSize: 20, fontWeight: 600, color: "white" }}>
+                            Travel Planner
+                        </div>
+                        <div>
+                            {this.state.authed && (
+                                <Button onClick={this.handleLogOut} shape="round" type="primary">
+                                    LogOut
+                                </Button>
+                            )}
+                        </div>
+                    </Header>
+                    <Content>
+                        <Routes>
+                            {/* Login route (default) */}
+                            {!this.state.authed ? (
+                                <Route
+                                    path="*"
+                                    element={
+                                        <LoginPage
+                                            handleLoginSuccess={this.handleLoginSuccess}
+                                            handleRegisterSuccess={this.handleRegisterSuccess}
+                                        />
+                                    }
+                                />
+                            ) : (
+                                <>
+                                    {/* Home page route */}
+                                    <Route
+                                        path="/"
+                                        element={
+                                            <UserHomePage
+                                                username={this.state.username}
+                                                authed={this.state.authed}
+                                            />
+                                        }
+                                    />
+                                    {/* City detail page route */}
+                                    <Route path="/cities/:cityId" element={<CityDetailPage />} />
+                                </>
+                            )}
+                        </Routes>
+                    </Content>
+                </Layout>
+            </Router>
         );
     }
 }
