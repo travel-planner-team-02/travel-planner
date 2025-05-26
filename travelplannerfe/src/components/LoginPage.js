@@ -89,7 +89,7 @@ class LoginPage extends React.Component {
                     <Button shape="round" type="primary" style={{ fontSize: 16, fontWeight: 500, height: "auto", padding: "0.6em 1.5em", lineHeight: 1.2 }}
                         onClick={() => this.setState({ showRegisterModal: true })}
                     >
-                        Sign on
+                        Sign up
                     </Button>
                 </div>
                 {/*Login Modal*/}
