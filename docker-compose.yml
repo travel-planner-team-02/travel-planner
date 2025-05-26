@@ -1,0 +1,16 @@
+services:
+
+ db:
+   image: ghcr.io/baosystems/postgis:latest # not a official version
+   environment:
+     POSTGRES_DB: postgres
+     POSTGRES_PASSWORD: secret
+     TZ: UTC
+   volumes:
+     - travelplanner-pg-local:/var/lib/postgresql/data
+   ports:
+     - "5433:5432"
+
+
+volumes:
+ travelplanner-pg-local:
