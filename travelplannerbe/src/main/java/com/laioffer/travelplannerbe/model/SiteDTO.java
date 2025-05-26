@@ -30,4 +30,18 @@ public record SiteDTO(
                 new GeoPoint(location.getCoordinate().y, location.getCoordinate().x)
         );
     }
+    public static SiteDTO fromSiteEntity(SiteEntity siteEntity) {
+    Point location = siteEntity.getLocation();
+    return new SiteDTO(
+        siteEntity.getId(),
+        siteEntity.getName(),
+        siteEntity.getDescription(),
+        siteEntity.getAddress(),
+        siteEntity.getImageUrls(),
+        siteEntity.getVisitTime(),
+        siteEntity.getRating(),
+        null, // visitDate is null because this is not trip-related
+        new GeoPoint(location.getCoordinate().y, location.getCoordinate().x)
+    );
+}
 }
