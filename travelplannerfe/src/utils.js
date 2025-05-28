@@ -70,6 +70,23 @@ export const getCityInfoByCityId = (cityId) => {
     });
 }
 
+export const getCities = async () => {
+    const authToken = localStorage.getItem("authToken");
+    const getCityURL = `${domain}/cities`;
+    return fetch(getCityURL, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+        }
+    }).then((response) => {
+        if (response.status >= 300) {
+            throw Error("Failed to fetch city info")
+        }
+        return response.json();
+    });
+};
+
 export const getSitesByCityId = (cityId) => {
     const authToken = localStorage.getItem("authToken");
     return fetch(`${domain}/cities/${cityId}/sites`, {

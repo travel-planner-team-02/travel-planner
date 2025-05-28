@@ -3,20 +3,22 @@ import { Layout } from "antd";
 import { useState, useEffect } from "react";
 import TripSider from "./TripSider";
 import MapContent from "./MapContent";
-import { getTrips, getCityInfoByCityId, getTripDetailByTripId } from "../utils";
+import { getCities, getTrips, getSitesByCityId, getCityInfoByCityId, getTripDetailByTripId } from "../utils";
 
 const { Sider } = Layout;
 
-
-function UsertHomePage({ username, authed }) { 
+function UsertHomePage({ username, authed }) {
     const [trips, setTrips] = useState([]);
     const [selectTrip, setSelectTrip] = useState(null);
     const [tripsites, setTripSites] = useState([]);
     const [selectSite, setSelectSite] = useState(null);
+    const [cities, setCities] = useState([]);
+    const [selectCity, setSelectCity] = useState(null);
+    const [selectedCitySites, setSelectedCitySites] = useState([]);
 
     useEffect(() => {
         const fetchTrips = async () => {
-            const baseTrips = await getTrips(); 
+            const baseTrips = await getTrips();
 
             const enriched = await Promise.all(
                 baseTrips.map(async (trip) => {
@@ -36,11 +38,24 @@ function UsertHomePage({ username, authed }) {
         fetchTrips();
     }, []);
 
+    useEffect(() => {
+        const fetchCities = async () => {
+            try {
+                const citiesFromServer = await getCities();
+                setCities(citiesFromServer);
+            } catch (err) {
+                console.error("Failed to fetch cities", err);
+            }
+        };
+
+        fetchCities();
+    }, []);
+
     const handleSelectTrip = async (trip) => {
         console.log("selected trip:", trip);
         setSelectTrip(trip);
         try {
-            const tripSitesList = await getTripDetailByTripId(trip.id); 
+            const tripSitesList = await getTripDetailByTripId(trip.id);
             console.log(tripSitesList);
             setTripSites(tripSitesList);
         } catch (err) {
@@ -56,7 +71,26 @@ function UsertHomePage({ username, authed }) {
     const handleBack = () => {
         setSelectTrip(null);
         setSelectSite(null);
-        setTripSites([]); 
+        setTripSites([]);
+    };
+
+    const handleBackCities = () => {
+        setSelectCity(null);
+        setSelectSite(null);
+        setSelectedCitySites([]);
+    };
+
+    const handleSelectCity = async (city) => {
+        console.log("selected city:", city);
+        console.log("city id: ", city.id);
+        setSelectCity(city);
+        try {
+            const citySitesList = await getSitesByCityId(city.id);
+            console.log(citySitesList);
+            setSelectedCitySites(citySitesList);
+        } catch (err) {
+            console.error("Failed to fetch city detail", err);
+        }
     };
 
 
@@ -71,9 +105,14 @@ function UsertHomePage({ username, authed }) {
                     selectTrip={selectTrip}
                     tripsites={tripsites}
                     onBack={handleBack}
+                    cities={cities}
+                    selectCity={selectCity}
+                    selectedCitySites={selectedCitySites}
+                    onCityClick={handleSelectCity}
+                    onCityBack={handleBackCities}
                 />
             </Sider>
-            <Layout style={{ padding: "24px", height: "100vh", background: "#eef2f5"}}>
+            <Layout style={{ padding: "24px", height: "100vh", background: "#eef2f5" }}>
                 {authed && <MapContent selectTrip={selectTrip} selectSite={selectSite} />}
             </Layout>
         </Layout>
