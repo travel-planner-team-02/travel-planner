@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import TripSider from "./TripSider";
 import MapContent from "./MapContent";
 import { getCities, getTrips, getSitesByCityId, getCityInfoByCityId, getTripDetailByTripId } from "../utils";
+import { useNavigate } from "react-router-dom";
 
 const { Sider } = Layout;
 
@@ -15,6 +16,11 @@ function UsertHomePage({ username, authed }) {
     const [cities, setCities] = useState([]);
     const [selectCity, setSelectCity] = useState(null);
     const [selectedCitySites, setSelectedCitySites] = useState([]);
+    const [mode, setMode] = useState("home"); // 'home' | 'viewTrip' | 'createTrip' etc.
+    const [isCreatingTrip, setIsCreatingTrip] = useState(false);
+    const [createTripCity, setCreateTripCity] = useState(null);
+    const [createTripSites, setCreateTripSites] = useState([]);
+    const [createTripStep, setCreateTripStep] = useState(1);
 
     useEffect(() => {
         const fetchTrips = async () => {
@@ -93,6 +99,27 @@ function UsertHomePage({ username, authed }) {
         }
     };
 
+    const handleCreateTripClick = () => {
+        setIsCreatingTrip(true);
+    };
+
+    const onCancelCreateTrip = () => {
+        setIsCreatingTrip(false);
+    };
+
+    const handleSelectCityForCreateTrip = async (city) => {
+        console.log("selected city for create trip:", city);
+        setCreateTripCity(city);
+        setCreateTripStep(2);
+        try {
+            const citySitesList = await getSitesByCityId(city.id);
+            console.log("Create trip - fetched sites:", citySitesList);
+            setCreateTripSites(citySitesList);
+        } catch (err) {
+            console.error("Failed to fetch sites for create trip", err);
+        }
+    };
+
 
     return (
         <Layout style={{ minHeight: "100vh", }}>
@@ -108,8 +135,13 @@ function UsertHomePage({ username, authed }) {
                     cities={cities}
                     selectCity={selectCity}
                     selectedCitySites={selectedCitySites}
-                    onCityClick={handleSelectCity}
+                    onCityClick={isCreatingTrip ? handleSelectCityForCreateTrip : handleSelectCity}
                     onCityBack={handleBackCities}
+                    isCreatingTrip={isCreatingTrip}
+                    onCreateTripClick={handleCreateTripClick}
+                    onCancelCreateTrip={onCancelCreateTrip}
+                    mode={mode}
+                    setMode={setMode}
                 />
             </Sider>
             <Layout style={{ padding: "24px", height: "100vh", background: "#eef2f5" }}>
