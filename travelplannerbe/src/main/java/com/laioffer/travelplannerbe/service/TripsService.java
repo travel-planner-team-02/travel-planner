@@ -57,4 +57,16 @@ public class TripsService {
                 .toList();
     }
 
+    // user creates trip
+    public Long createTrip(long userId, TripCreationRequest tripCreationRequest) {
+        TripEntity trip = new TripEntity();
+        trip.setUserId(userId);
+        trip.setCityId(tripCreationRequest.cityId());
+        trip.setTripStartDate(tripCreationRequest.tripStartDate());
+        trip.setTripEndDate(tripCreationRequest.tripEndDate());
+
+        TripEntity savedTrip = tripRepository.save(trip);
+
+        return savedTrip.getId();
+    }
 }

@@ -28,4 +28,10 @@ public class TripsController {
             @PathVariable Long tripId) {
         return tripsService.getSitesByTripId(user.getId(), tripId);
     }
+
+    @PostMapping("/create")
+    public Long createTrip(@AuthenticationPrincipal UserEntity user, @RequestBody TripCreationRequest tripcreationrequest) {
+        Long newTripId = tripsService.createTrip(user.getId(), tripcreationrequest);
+        return newTripId;
+    }
 }

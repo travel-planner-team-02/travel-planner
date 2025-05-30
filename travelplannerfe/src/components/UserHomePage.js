@@ -23,26 +23,26 @@ function UsertHomePage({ username, authed }) {
     const [createTripStep, setCreateTripStep] = useState(1);
 
     useEffect(() => {
-        const fetchTrips = async () => {
-            const baseTrips = await getTrips();
-
-            const enriched = await Promise.all(
-                baseTrips.map(async (trip) => {
-                    try {
-                        const cityInfo = await getCityInfoByCityId(trip.cityId);
-                        return { ...trip, cityName: cityInfo.name, cityInfo };
-                    } catch (err) {
-                        console.error(`Failed to fetch city info for ${trip.cityId}`, err);
-                        return { ...trip, cityName: "Unknown" };
-                    }
-                })
-            );
-            //console.log("enriched trips: ", enriched);
-            setTrips(enriched);
-        };
-
         fetchTrips();
-    }, []);
+    } , []);
+    
+    const fetchTrips = async () => {
+        const baseTrips = await getTrips();
+
+        const enriched = await Promise.all(
+            baseTrips.map(async (trip) => {
+                try {
+                    const cityInfo = await getCityInfoByCityId(trip.cityId);
+                    return { ...trip, cityName: cityInfo.name, cityInfo };
+                } catch (err) {
+                    console.error(`Failed to fetch city info for ${trip.cityId}`, err);
+                    return { ...trip, cityName: "Unknown" };
+                }
+            })
+        );
+        //console.log("enriched trips: ", enriched);
+        setTrips(enriched);
+    };
 
     useEffect(() => {
         const fetchCities = async () => {
@@ -105,11 +105,14 @@ function UsertHomePage({ username, authed }) {
 
     const onCancelCreateTrip = () => {
         setIsCreatingTrip(false);
+        fetchTrips();
     };
 
     const handleSelectCityForCreateTrip = async (city) => {
         console.log("selected city for create trip:", city);
         setCreateTripCity(city);
+        setSelectCity(city);
+        console.log("Select city:", city);
         setCreateTripStep(2);
         try {
             const citySitesList = await getSitesByCityId(city.id);

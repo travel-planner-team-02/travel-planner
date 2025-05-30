@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { DatePicker, Button, Input, List, message } from "antd";
-import dayjs from "dayjs";
-import { getCities } from "../utils";
+import dayjs from "dayjs"
+import CreateTripDetail from "./CreateTripDetail";
+import { getCities} from "../utils";
 
 const { RangePicker } = DatePicker;
 
-const CreateTripPage = ({ onCancel, onCityClick }) => {
+const CreateTripPage = ({ onCancel, onCityClick, isCreatingTrip }) => {
     const [step, setStep] = useState(1);
     const [tripDates, setTripDates] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+    const [selectedCity, setSelectedCity] = useState(null);//is not same as another state, just for here
+
 
     // STEP 1: Handle trip date selection
     const handleDateChange = (dates) => {
@@ -17,11 +20,19 @@ const CreateTripPage = ({ onCancel, onCityClick }) => {
     };
 
     const goToNextStep = () => {
-        if (!tripDates || tripDates.length !== 2) {
-            message.error("Please select a start and end date.");
-            return;
+        if (step === 1) {
+            if (!tripDates || tripDates.length !== 2) {
+                message.error("Please select a start and end date.");
+                return;
+            }
+            setStep(2);
+        } else if (step === 2) {
+            if (!selectedCity) {
+                message.error("Please select a city.");
+                return;
+            }
+            setStep(3);
         }
-        setStep(2);
     };
 
     // STEP 2: Search cities
@@ -38,7 +49,11 @@ const CreateTripPage = ({ onCancel, onCityClick }) => {
     };
 
     const goToPreviousStep = () => {
-        setStep(1);
+        if (step === 2) {
+            setStep(1);
+        } else if (step === 3) {
+            setStep(2);
+        }
     };
 
     return (
@@ -80,24 +95,42 @@ const CreateTripPage = ({ onCancel, onCityClick }) => {
                         bordered
                         dataSource={searchResults}
                         renderItem={(item) => (
-                            <List.Item>
-                                <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                                    <span>{item.name}</span>
-                                    <Button type="link" onClick={() => {
-                                        console.log("Clicked on city:", item);
-                                        onCityClick(item)
-                                    }}>
-                                        View Sites
-                                    </Button>
+                            <List.Item
+                                style={{ cursor: "pointer" }}
+                                onClick={() => { 
+                                    setSearchTerm(item.name);
+                                    onCityClick(item);
+                                    setSelectedCity(item);
+                                }} // click on item to select
+                            >
+                            <div
+                                style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                width: "100%",
+                                }}
+                            >
+                            <span>{item.name}</span>
                                 </div>
-                            </List.Item>
-                        )}
+                        </List.Item>
+                    )}
                     />
                     <div style={{ display: "flex", gap: 8, marginTop: 24 }}>
                         <Button onClick={goToPreviousStep}>Back</Button>
+                        <Button onClick={goToNextStep}>Next</Button>
                         <Button danger onClick={onCancel}>Cancel</Button>
                     </div>
                 </div>
+            )}
+
+            {step === 3 && (
+                <CreateTripDetail
+                    step={step}
+                    city={selectedCity}
+                    tripDates={tripDates}
+                    onCancel={onCancel}
+                    goToPreviousStep={goToPreviousStep}
+                />
             )}
         </div>
     );

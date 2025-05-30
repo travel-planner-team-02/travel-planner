@@ -118,6 +118,45 @@ export const getTripDetailByTripId = (tripId) => {
     });
 }
 
+export const createTrip = async ({ cityId, tripStartDate, tripEndDate }) => {
+    const authToken = localStorage.getItem("authToken");
+
+    return fetch(`${domain}/trips/create`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({
+            cityId,
+            tripStartDate, //  'YYYY-MM-DD'
+            tripEndDate,
+        }),
+    }).then((res) => {
+        if (res.status >= 300) {
+            throw new Error("Failed to create trip");
+        }
+        return res.json(); // return new tripId
+    });
+};
+
+export const assignSitesToTrip = async (tripId, assignments) => {
+  const authToken = localStorage.getItem("authToken");
+
+  const response = await fetch(`${domain}/tripsite/${tripId}/assig-sites`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(assignments),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to assign sites to trip");
+  }
+};
+
 // parse the tkoen to get username
 export function parseJwt(token) {
     try {

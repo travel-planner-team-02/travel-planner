@@ -34,7 +34,9 @@ class TripSider extends React.Component {
                 {isCreatingTrip ? (
                     <CreateTripPage
                         onCancel={onCancelCreateTrip}
-                        onCityClick={onCityClick} />
+                        onCityClick={onCityClick}
+                        isCreatingTrip={isCreatingTrip}
+                    />
                 ) : (
                     <>
                         <Button type="primary" shape="round" block style={{ marginBottom: 24 }} onClick={onCreateTripClick}>
