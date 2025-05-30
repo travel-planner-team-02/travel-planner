@@ -13,4 +13,7 @@ public interface TripSiteRepository extends JpaRepository<TripSiteEntity, TripSi
     //get a list of site_id by trip_id
     @Query("SELECT ts.id.siteId FROM TripSiteEntity ts WHERE ts.trip.id = :tripId")
     List<Long> findSiteIdsByTripId(@Param("tripId") Long tripId);
+
+    @Query("SELECT ts FROM TripSiteEntity ts WHERE ts.trip.id = :tripId")
+    List<TripSiteEntity> findByTripId(@Param("tripId") Long tripId);
 }

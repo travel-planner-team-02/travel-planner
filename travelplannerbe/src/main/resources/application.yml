@@ -17,3 +17,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     database-platform: org.hibernate.spatial.dialect.postgis.PostgisDialect
     show-sql: true
+
+travelplanner:
+  jwt:
+    secret-key: fra/oOvgyoZWdxSSZt0ZtI3gOEjpBK3f9xYtc5sTYqc=

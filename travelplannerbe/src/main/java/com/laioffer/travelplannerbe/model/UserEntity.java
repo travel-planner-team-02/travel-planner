@@ -1,13 +1,15 @@
 package com.laioffer.travelplannerbe.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 import java.util.*;
 
 @Entity
 @Table(name = "users")
-public class UserEntity{
+public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,10 +32,17 @@ public class UserEntity{
         return id;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
+
+    @Override // because implemented UserDetails
     public String getUsername() {
         return username;
     }
 
+    @Override // because implemented UserDetails
     public String getPassword() {
         return password;
     }

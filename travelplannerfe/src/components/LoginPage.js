@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Modal, Form, Input, message, Space } from "antd";
 import { login, register } from "../utils";
 
-class LoginPage extends React.Component { 
+class LoginPage extends React.Component {
     loginformRef = React.createRef();
     registerformRef = React.createRef();
 
@@ -12,29 +12,34 @@ class LoginPage extends React.Component {
         showRegisterModal: false
     };
 
-    handleLogin = async () => { 
+    handleLogin = async () => {
+        console.log("clicked on login");
         const loginformInstance = this.loginformRef.current;
 
         try {
             await loginformInstance.validateFields();
-        } catch (error) { 
+        } catch (error) {
             return;
         }
 
         this.setState({ loading: true });
 
-        try { 
+        try {
             const resp = await login(loginformInstance.getFieldsValue(true));
+            console.log("called login api");
             this.props.handleLoginSuccess(resp.token);
+            console.log("got token from backend");
             this.setState({ showLoginModal: false });
-        } catch (error){
+            console.log("Login successful, closing modal");
+        } catch (error) {
             message.error(error.message);
         } finally {
             this.setState({ loading: false });
         }
     }
 
-    handleRegister = async () => { 
+    handleRegister = async () => {
+        console.log("clicked on register");
         const registerformRef = this.registerformRef.current;
 
         try {
@@ -42,13 +47,16 @@ class LoginPage extends React.Component {
         } catch (error) {
             return;
         }
-
+        console.log("validate");
         this.setState({ loading: true });
 
         try {
             const resp = await register(registerformRef.getFieldsValue(true));
+            console.log("called register api");
             this.props.handleRegisterSuccess(resp.token);
-            this.setState({ showRegisterModal : false});
+            console.log("got token from backend");
+            this.setState({ showRegisterModal: false });
+            console.log("Registration successful, closing modal");
         } catch (error) {
             message.error(error.message);
         } finally {
@@ -56,8 +64,8 @@ class LoginPage extends React.Component {
         }
     }
 
-    render() { 
-        const { showLoginModal, showRegisterModal, loading } = this.state; 
+    render() {
+        const { showLoginModal, showRegisterModal, loading } = this.state;
         return (
             <div
                 style={{
@@ -70,34 +78,34 @@ class LoginPage extends React.Component {
                 }}
             >
                 <div style={{ fontSize: 20, fontWeight: 600, color: "blue" }}>
-                    Explore this wanderful world
+                    Explore this wonderful world!
                 </div>
-                <div style={{display:"flex", justifyContent: "space-between", gap: "16px"}}>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: "16px" }}>
                     <Button shape="round" type="primary" style={{ fontSize: 16, fontWeight: 500, height: "auto", padding: "0.6em 1.5em", lineHeight: 1.2, }}
-                        onClick={() => this.setState({showLoginModal : true})}
+                        onClick={() => this.setState({ showLoginModal: true })}
                     >
                         Sign in
                     </Button>
                     <Button shape="round" type="primary" style={{ fontSize: 16, fontWeight: 500, height: "auto", padding: "0.6em 1.5em", lineHeight: 1.2 }}
-                        onClick={() => this.setState({showRegisterModal : true})}
+                        onClick={() => this.setState({ showRegisterModal: true })}
                     >
-                        Sign on
-                    </Button> 
+                        Sign up
+                    </Button>
                 </div>
                 {/*Login Modal*/}
                 <Modal
                     title="Login"
-                    open={ showLoginModal }
+                    open={showLoginModal}
                     onCancel={() => this.setState({ showLoginModal: false })}
                     footer={null}
                     destroyOnClose
                 >
                     <Form ref={this.loginformRef}>
-                        <Form.Item name="username" rules={[{ required: true,  message: "please input your username!"}]}>
-                            <Input placeholder="Username"/>
+                        <Form.Item name="username" rules={[{ required: true, message: "please input your username!" }]}>
+                            <Input placeholder="Username" />
                         </Form.Item>
-                        <Form.Item name="password" rules={[{required: true, message: "please input your password!"}]}>
-                            <Input.Password placeholder="Password"/>
+                        <Form.Item name="password" rules={[{ required: true, message: "please input your password!" }]}>
+                            <Input.Password placeholder="Password" />
                         </Form.Item>
                     </Form>
                     <Space>
@@ -109,17 +117,17 @@ class LoginPage extends React.Component {
                 {/*Register Modal*/}
                 <Modal
                     title="Register"
-                    open={ showRegisterModal }
+                    open={showRegisterModal}
                     onCancel={() => this.setState({ showRegisterModal: false })}
                     footer={null}
                     destroyOnClose
                 >
                     <Form ref={this.registerformRef}>
-                        <Form.Item name="username" rules={[{ required: true,  message: "please input your username!"}]}>
-                            <Input placeholder="Username"/>
+                        <Form.Item name="username" rules={[{ required: true, message: "please input your username!" }]}>
+                            <Input placeholder="Username" />
                         </Form.Item>
-                        <Form.Item name="password" rules={[{required: true, message: "please input your password!"}]}>
-                            <Input.Password placeholder="Password"/>
+                        <Form.Item name="password" rules={[{ required: true, message: "please input your password!" }]}>
+                            <Input.Password placeholder="Password" />
                         </Form.Item>
                     </Form>
                     <Space>
@@ -128,9 +136,9 @@ class LoginPage extends React.Component {
                         </Button>
                     </Space>
                 </Modal>
-        </div>
+            </div>
         )
     }
 }
 
-export default LoginPage
+export default LoginPage;
